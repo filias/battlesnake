@@ -47,29 +47,34 @@ def avoid_walls(my_head: dict, possible_moves: List[str], height: int, width: in
     return possible_moves
 
 
-def avoid_my_body(my_body: List[dict], possible_moves: List[str]) -> List[str]:
-    my_head = my_body[0]
-
+def avoid_snake(my_head: dict, snake_body: List[dict], possible_moves: List[str]) -> List[str]:
     # If the moves of the head go to any of my_body coords remove that direction
     if "up" in possible_moves:
         up_position = {"x": my_head["x"], "y": my_head["y"] + 1}
-        if up_position in my_body:
+        if up_position in snake_body:
             possible_moves.remove("up")
 
     if "down" in possible_moves:
         down_position = {"x": my_head["x"], "y": my_head["y"] - 1}
-        if down_position in my_body:
+        if down_position in snake_body:
             possible_moves.remove("down")
 
     if "left" in possible_moves:
         left_position = {"x": my_head["x"] - 1, "y": my_head["y"]}
-        if left_position in my_body:
+        if left_position in snake_body:
             possible_moves.remove("left")
 
     if "right" in possible_moves:
         right_position = {"x": my_head["x"] + 1, "y": my_head["y"]}
-        if right_position in my_body:
+        if right_position in snake_body:
             possible_moves.remove("right")
+
+    return possible_moves
+
+
+def avoid_snakes(my_head: dict, snakes: List[List[dict]], possible_moves: List[str]):
+    for snake in snakes:
+        possible_moves = avoid_snake(my_head=my_head, snake_body=snake, possible_moves=possible_moves)
 
     return possible_moves
 
@@ -108,9 +113,9 @@ def choose_move(data: dict) -> str:
     possible_moves = avoid_walls(my_head, possible_moves, height, width)
 
     # Using information from 'data', don't let your Battlesnake pick a move that would hit its own body
-    possible_moves = avoid_my_body(my_body, possible_moves)
-
-    # TODO: Using information from 'data', don't let your Battlesnake pick a move that would collide with another Battlesnake
+    # or that would collide with another Battlesnake
+    snakes = data["board"]["snakes"]
+    possible_moves = avoid_snakes(possible_moves, my_head, snakes)
 
     # TODO: Using information from 'data', make your Battlesnake move towards a piece of food on the board
 

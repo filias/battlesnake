@@ -72,9 +72,9 @@ def avoid_snake(my_head: dict, snake_body: List[dict], possible_moves: List[str]
     return possible_moves
 
 
-def avoid_snakes(my_head: dict, snakes: List[List[dict]], possible_moves: List[str]):
+def avoid_snakes(my_head: dict, snakes: List[dict], possible_moves: List[str]):
     for snake in snakes:
-        possible_moves = avoid_snake(my_head=my_head, snake_body=snake, possible_moves=possible_moves)
+      possible_moves = avoid_snake(my_head, snake["body"], possible_moves)
 
     return possible_moves
 
@@ -115,7 +115,7 @@ def choose_move(data: dict) -> str:
     # Using information from 'data', don't let your Battlesnake pick a move that would hit its own body
     # or that would collide with another Battlesnake
     snakes = data["board"]["snakes"]
-    possible_moves = avoid_snakes(possible_moves, my_head, snakes)
+    possible_moves = avoid_snakes(my_head, snakes, possible_moves)
 
     # TODO: Using information from 'data', make your Battlesnake move towards a piece of food on the board
 

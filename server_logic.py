@@ -35,42 +35,43 @@ def avoid_my_neck(my_head: Dict[str, int], my_body: List[dict], possible_moves: 
 
 
 def avoid_walls(my_head: dict, possible_moves: List[str], height: int, width: int) -> List[str]:
-  if my_head["x"] == 0:
-    possible_moves.remove("left")
-  if my_head["y"] == 0:
-    possible_moves.remove("down")
-  if my_head["x"] == width - 1:
-    possible_moves.remove("right")
-  if my_head["y"] == height - 1:
-    possible_moves.remove("up")
+    if my_head["x"] == 0:
+        possible_moves.remove("left")
+    if my_head["y"] == 0:
+        possible_moves.remove("down")
+    if my_head["x"] == width - 1:
+        possible_moves.remove("right")
+    if my_head["y"] == height - 1:
+        possible_moves.remove("up")
 
-  return possible_moves
+    return possible_moves
+
 
 def avoid_my_body(my_body: List[dict], possible_moves: List[str]) -> List[str]:
-  my_head = my_body[0]
+    my_head = my_body[0]
 
-  # If the moves of the head go to any of my_body coords remove that direction
-  if "up" in possible_moves:
-    up_position = {"x": my_head["x"], "y": my_head["y"] + 1}
-    if up_position in my_body:
-      possible_moves.remove("up")
+    # If the moves of the head go to any of my_body coords remove that direction
+    if "up" in possible_moves:
+        up_position = {"x": my_head["x"], "y": my_head["y"] + 1}
+        if up_position in my_body:
+            possible_moves.remove("up")
 
-  if "down" in possible_moves:
-    down_position = {"x": my_head["x"], "y": my_head["y"] - 1}
-    if down_position in my_body:
-      possible_moves.remove("down")
+    if "down" in possible_moves:
+        down_position = {"x": my_head["x"], "y": my_head["y"] - 1}
+        if down_position in my_body:
+            possible_moves.remove("down")
 
-  if "left" in possible_moves:
-    left_position = {"x": my_head["x"] - 1, "y": my_head["y"]}
-    if left_position in my_body:
-      possible_moves.remove("left")
+    if "left" in possible_moves:
+        left_position = {"x": my_head["x"] - 1, "y": my_head["y"]}
+        if left_position in my_body:
+            possible_moves.remove("left")
 
-  if "right" in possible_moves:
-    right_position = {"x": my_head["x"] + 1, "y": my_head["y"]}
-    if right_position in my_body:
-      possible_moves.remove("right")
+    if "right" in possible_moves:
+        right_position = {"x": my_head["x"] + 1, "y": my_head["y"]}
+        if right_position in my_body:
+            possible_moves.remove("right")
 
-  return possible_moves
+    return possible_moves
 
 
 def choose_move(data: dict) -> str:
@@ -86,7 +87,8 @@ def choose_move(data: dict) -> str:
 
     """
     my_head = data["you"]["head"]  # A dictionary of x/y coordinates like {"x": 0, "y": 0}
-    my_body = data["you"]["body"]  # A list of x/y coordinate dictionaries like [ {"x": 0, "y": 0}, {"x": 1, "y": 0}, {"x": 2, "y": 0} ]
+    my_body = data["you"][
+        "body"]  # A list of x/y coordinate dictionaries like [ {"x": 0, "y": 0}, {"x": 1, "y": 0}, {"x": 2, "y": 0} ]
 
     # TODO: uncomment the lines below so you can see what this data looks like in your output!
     # print(f"~~~ Turn: {data['turn']}  Game Mode: {data['game']['ruleset']['name']} ~~~")
